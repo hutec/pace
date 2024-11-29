@@ -2,7 +2,6 @@
   import Pace from "./lib/Pace.svelte";
 
   let paces = $state([Pace]);
-
   function addPace() {
     paces = [...paces, Pace];
   }
@@ -10,7 +9,8 @@
 
 <main>
   {#each paces as pace}
-    <svelte:component this={pace} />
+    {@const Component = pace}
+    <Component />
   {/each}
 
   <button onclick={addPace}>Add Pace</button>
