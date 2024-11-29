@@ -1,19 +1,19 @@
 <script lang="ts">
   import Pace from "./lib/Pace.svelte";
 
-  let paces = [1];
+  let paces = $state([Pace]);
 
   function addPace() {
-    paces = [...paces, paces.length + 1];
+    paces = [...paces, Pace];
   }
 </script>
 
 <main>
   {#each paces as pace}
-    <Pace />
+    <svelte:component this={pace} />
   {/each}
 
-  <button on:click={addPace}>Add Pace</button>
+  <button onclick={addPace}>Add Pace</button>
 </main>
 
 <style>
