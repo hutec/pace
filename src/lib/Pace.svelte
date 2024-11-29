@@ -52,9 +52,9 @@
   });
 </script>
 
-<main>
-  <div>
-    <label for="duration">Duration</label>
+<main style="display: flex; flex-direction: row">
+  <div style="padding: 10px">
+    <label for="duration"><b>Duration</b></label>
     {#if completed_stats && completed_stats.duration}
       <input
         type="number"
@@ -71,8 +71,10 @@
         placeholder="Duration in minutes"
       />
     {/if}
+  </div>
 
-    <label for="pace">Pace</label>
+  <div style="padding: 10px">
+    <label for="pace"><b>Pace</b></label>
     {#if completed_stats && completed_stats.pace}
       <input
         type="string"
@@ -89,8 +91,10 @@
         placeholder="Pace in mm:ss per km"
       />
     {/if}
+  </div>
 
-    <label for="distance">Distance</label>
+  <div style="padding: 10px">
+    <label for="distance"><b>Distance</b></label>
     {#if completed_stats && completed_stats.distance}
       <input
         type="number"
