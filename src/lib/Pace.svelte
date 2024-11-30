@@ -1,53 +1,33 @@
 <script lang="ts">
   let stats = $state({
-    duration: null,
-    distance: null,
-    pace: null,
+    duration: null as number | null,
+    distance: null as number | null,
+    pace: null as string | null,
   });
 
-  function parsePace(pace: string): number | null {
-    if (!pace) return null;
-    if (pace.includes(":")) {
-      const [minutes, seconds] = pace.split(":").map(Number);
-      return minutes + seconds / 60;
-    } else {
-      return parseFloat(pace);
-    }
+  function parsePace(pace: string) {
+    if (!pace?.includes(":")) return parseFloat(pace);
+    const [min, sec] = pace.split(":").map(Number);
+    return min + sec / 60;
   }
 
-  function formatPace(pace: number): string {
-    const minutes = Math.floor(pace);
-    const seconds = Math.round((pace - minutes) * 60);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  function formatPace(pace: number) {
+    const min = Math.floor(pace);
+    const sec = Math.round((pace - min) * 60);
+    return `${min}:${sec.toString().padStart(2, "0")}`;
   }
 
   let completed_stats = $derived.by(() => {
-    // Derive the missing stat from the other two
-    let defaults = {
-      duration: null,
-      distance: null,
-      pace: null,
-    };
+    if (!stats.duration && !stats.distance && !stats.pace) return null;
 
     if (stats.duration && stats.distance) {
-      return {
-        ...defaults,
-        pace: formatPace(stats.duration / stats.distance),
-      };
+      return { pace: formatPace(stats.duration / stats.distance) };
     }
-
     if (stats.duration && stats.pace) {
-      return {
-        ...defaults,
-        distance: stats.duration / parsePace(stats.pace),
-      };
+      return { distance: stats.duration / parsePace(stats.pace) };
     }
-
     if (stats.distance && stats.pace) {
-      return {
-        ...defaults,
-        duration: stats.distance * parsePace(stats.pace),
-      };
+      return { duration: stats.distance * parsePace(stats.pace) };
     }
   });
 </script>
