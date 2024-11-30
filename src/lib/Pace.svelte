@@ -135,7 +135,7 @@
     {/if}
   </div>
 
-  <button class="clear-btn" on:click={clearForm}>Clear All</button>
+  <button class="clear-btn" onclick={clearForm}>Clear All</button>
 </main>
 
 <style>
