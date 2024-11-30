@@ -141,7 +141,10 @@
 <style>
   .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    @media (min-width: 1000px) {
+      flex-direction: row;
+    }
     gap: 1rem;
     padding: 1rem;
   }
