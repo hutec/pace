@@ -30,66 +30,44 @@
       return { duration: stats.distance * parsePace(stats.pace) };
     }
   });
+
+  let fields = [
+    {
+      id: "duration",
+      label: "Duration",
+      unit: "minutes",
+      format: (v) => v.toFixed(2),
+    },
+    { id: "pace", label: "Pace", unit: "mm:ss per km", format: (v) => v },
+    {
+      id: "distance",
+      label: "Distance",
+      unit: "km",
+      format: (v) => v.toFixed(2),
+    },
+  ];
 </script>
 
 <main style="display: flex; flex-direction: row">
-  <div style="padding: 10px">
-    <label for="duration"><b>Duration</b></label>
-    {#if completed_stats && completed_stats.duration}
-      <input
-        type="number"
-        id="duration"
-        value={completed_stats.duration.toFixed(2)}
-        style="border: 3px solid green;"
-        readonly
-      />
-    {:else}
-      <input
-        type="number"
-        id="duration"
-        bind:value={stats.duration}
-        placeholder="Duration in minutes"
-      />
-    {/if}
-  </div>
-
-  <div style="padding: 10px">
-    <label for="pace"><b>Pace</b></label>
-    {#if completed_stats && completed_stats.pace}
-      <input
-        type="string"
-        id="pace"
-        value={completed_stats.pace}
-        readonly
-        style="border: 3px solid green;"
-      />
-    {:else}
-      <input
-        type="string"
-        id="pace"
-        bind:value={stats.pace}
-        placeholder="Pace in mm:ss per km"
-      />
-    {/if}
-  </div>
-
-  <div style="padding: 10px">
-    <label for="distance"><b>Distance</b></label>
-    {#if completed_stats && completed_stats.distance}
-      <input
-        type="number"
-        id="distance"
-        value={completed_stats.distance.toFixed(2)}
-        style="border: 3px solid green;"
-        readonly
-      />
-    {:else}
-      <input
-        type="number"
-        id="distance"
-        bind:value={stats.distance}
-        placeholder="Distance in km"
-      />
-    {/if}
-  </div>
+  {#each fields as field}
+    <div style="padding: 10px">
+      <label for={field.id}><b>{field.label}</b></label>
+      {#if completed_stats && completed_stats[field.id]}
+        <input
+          type={field.id === "pace" ? "text" : "number"}
+          id={field.id}
+          value={field.format(completed_stats[field.id])}
+          style="border: 3px solid green;"
+          readonly
+        />
+      {:else}
+        <input
+          type={field.id === "pace" ? "text" : "number"}
+          id={field.id}
+          bind:value={stats[field.id]}
+          placeholder="{field.label} in {field.unit}"
+        />
+      {/if}
+    </div>
+  {/each}
 </main>
