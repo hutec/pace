@@ -167,7 +167,14 @@
 
   input.completed {
     border: 2px solid #4caf50;
-    background-color: #f0fff0;
+    background-color: color-mix(in srgb, #4caf50 10%, transparent);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    input.completed {
+      border: 2px solid #66bb6a;
+      background-color: color-mix(in srgb, #66bb6a 15%, transparent);
+    }
   }
 
   .clear-btn {
